@@ -8,7 +8,7 @@ import java.util.Scanner;
 public class Huffman_Decompressor {
 
 	public static void main(String[] args) {
-		File f = new File("deCompress.txt");
+		File f = new File("Compress.txt");
 		String treeS = "";
 		String tD = "";
 		int l = 0;
@@ -21,7 +21,15 @@ public class Huffman_Decompressor {
 		
 		long time = System.nanoTime();
 		
-		//tD = hexToBin(tD);
+		
+		//String temp = "";
+		
+		//for(int i = 0;i < tD.length();i++){
+		//	temp += ((int) tD.charAt(i)) + "";
+		//}
+		
+		tD = toBin(tD);
+		//System.out.println(tD.replace(""," "));
 		//tD = tD.substring(0, l);
 		
 		String deComp = "";
@@ -37,16 +45,17 @@ public class Huffman_Decompressor {
 		
 		while(toD.size() > 0){
 			temp = tree.interpret(toD);
-			System.out.print(temp);
+			//System.out.print(temp);
 			//try {
 			//	Thread.sleep(10);
 			//} catch (Exception e) {}
 			deComp += temp;
 		}
 		
-		System.out.print("\n" + (System.nanoTime() - time));
+		System.out.println("\n" + (System.nanoTime() - time));
 		
-		//System.out.println(deComp);
+		
+		System.out.println(deComp);
 		
 	}
 	
@@ -73,8 +82,30 @@ public class Huffman_Decompressor {
 		
 	}
 	
-	static String hexToBin(String s) {
-		return new BigInteger(s, 16).toString(2);
+	static String toBin(String s) {
+		String tr = "";
+		int t = 0;
+		for(int i = 0;i < s.length();i++){
+			t = ((int) s.charAt(i)) - 32;
+			//System.out.println(t);
+			if(t > 31)
+				tr += toBinStr(t);
+			else
+				tr += "0" + toBinStr(t);
+			t = 0;
+		}
+		return tr;
 	}
+	
+	private static String toBinStr(int a){
+		if(a > 1){
+			return toBinStr((int) a/2) + (a%2);
+		}else if(a == 1){
+			return "1";
+		}else{
+			return "0";
+		}
+	}
+	
 
 }
